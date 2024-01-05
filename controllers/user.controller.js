@@ -68,5 +68,50 @@ router.post('/login', async(req, res) => {
 
 //!Update User
 
+//! Get All 
+
+router.get('/', async (req, res) =>{
+    try {
+
+        const allUsers = await User.find();
+        
+        // console.log(req.user);
+        if(allUsers.length === 0) throw new error
+
+        allUsers.length > 0?
+        res.status(200).json({
+            result: allUsers,
+        }) :
+        res.status(404).json({
+            result: 'No Users found'
+        })
+        
+    } catch (err) {
+        res.status(500).json({
+            error: err.message
+        })
+    }
+});
+
+//! Get ONE 
+router.get('/find-one/:id', async (req, res) => {
+    try {
+        
+        const { id } = req.params;
+        const getUser = await User.findOne({_id: id}); 
+
+        if (!getUser) throw new Error ('no user found');
+
+        res.status(200).json({
+            results: getUser
+        })
+        
+    } catch (err) {
+        res.status(500).json({
+            error: err.message
+        })
+    }
+});
+
 
 module.exports = router;
