@@ -11,12 +11,15 @@ const validateSession = require('../middleware/validateSession');
 router.post('/signup', async(req, res) => {
     try {
         const user = new User({
-            firstName: req.body.first ? req.body.first : 'Please enter your first name.',
-            lastName: req.body.last ? req.body.last : 'Please enter your first name', 
+            firstName: req.body.first, //Too the ternarys out of here
+            lastName: req.body.last, 
             email: req.body.email,
             password: bcrypt.hashSync(req.body.password,13)
         });
 
+        if(!user.firstName) throw new Error('Please enter your first name'); //Added these errors here
+        if(!user.lastName) throw new Error('Please enter your last name')
+        
         const newUser = await user.save();
 
         const token = jwt.sign({id: newUser._id}, SECRET, expiresIn);
@@ -39,34 +42,62 @@ router.post('/signup', async(req, res) => {
 //!User Login
 router.post('/login', async(req, res) => {
     try {
+        //took All the comments out of here, it was distracting. Added "errorhandling methods"
         
-        //1. Capture data provided by user (req.body)
-        const { email, password } = req.body; // this requests the email and password from the body request.
-        //2. Check database to see if email supplied email exists
-        const user = await User.findOne({email: email}); //* a mongoDB method that accepts a query as an argument. Returns an instance of a document that matches
-        // console.log(user);
+        const { email, password } = req.body; 
+        
+        const user = await User.findOne({email: email});
+        
         if(!user) throw new Error('Email or Password does not match');
-        //3. If email exists, consider if the password matches
+        
         const passwordMatch = await bcrypt.compare(password, user.password);
-        // true/false value
-        //* compare(string, hashed value)
+        
         if(!passwordMatch) throw new Error('Email or Password does not match');
-        //4. After verified, provide a jwt(token)
+        
         const token = jwt.sign({id: user._id}, SECRET, {expiresIn: 60 * 60 * 24})
-        //5. Response status returned.
-        res.status (200).json({
-            message: "Successful",
+        
+        const results = {
+            message: "Login Successful",
             user, token
-        })
+        };
+        results ?
+        successHandling(res, results) :
+        incompleteHandling(res)
         
     } catch (err) {
-       res.status(500).json({
-            ERROR: err.message
-       }) 
+        errorHandling(res, err);
     }
 })
 
 //!Update User
+router.patch('/:id', validateSession, async (req, res) => {
+    try {
+    const { id } = req.params;
+
+
+    const allowedProperties = ['firstName', 'lastName', 'email'];  //Sets an array of properties we named in our user model.
+
+
+    const filteredInfo = {};
+        for (const key in req.body) {
+            if (allowedProperties.includes(key)) {
+            filteredInfo[key] = req.body[key];                //This filters our user model by the 'allowedProperties' array in order to only allow changes to the things in the array. In other words, 'password' can no longer be changed via patch.
+            } else{
+            throw new Error(`That change is not authorized.`)
+        }
+    }
+
+
+
+    const updated = await User.findOneAndUpdate({ _id: id }, filteredInfo);
+
+    updated ? successHandling(res, "User updated") : incompleteHandling(res);
+    } catch (err) {
+    errorHandling(res, err);
+    }
+
+});
+
 
 //! Get All 
 
