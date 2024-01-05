@@ -8,7 +8,7 @@ const { errorHandling, successHandling, incompleteHandling } = require('../helpe
 const validateSession = require('../middleware/validateSession');
 
 //! User Signup
-router.post('/signup', async(req, res) => {
+router.post('/signup', async(req, res) => { 
     try {
         const user = new User({
             firstName: req.body.first, //Too the ternarys out of here
@@ -99,7 +99,7 @@ router.patch('/:id', validateSession, async (req, res) => {
 });
 
 
-//! Get All 
+//! Get All Aaron did this 
 
 router.get('/', async (req, res) =>{
     try {
