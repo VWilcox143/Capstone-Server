@@ -81,7 +81,7 @@ router.patch('/:id', validateSession, async (req, res) => {
     const filteredInfo = {};
         for (const key in req.body) {
             if (allowedProperties.includes(key)) {
-            filteredInfo[key] = req.body[key];                //This filters our user model by the 'allowedProperties' array in order to only allow changes to the things in the array. In other words, 'password' can no longer be changed via patch.
+            filteredInfo[key] = req.body[key];                //This filters out user model by the 'allowedProperties' array in order to only allow changes to the things in the array. In other words, 'password' can no longer be changed via patch.
             } else{
             throw new Error(`That change is not authorized.`)
         }
@@ -144,5 +144,27 @@ router.get('/find-one/:id', async (req, res) => {
     }
 });
 
+//! Delete One
+router.delete('/:id', async (req,res) => {
+    try {
+        
+        const { id } = req.params;
+
+        const deleteUser = await User.deleteOne({_id: id,});
+        
+        deleteUser.deletedCount ?
+        res.status(200).json({
+            result: `User Removed`
+        }) : 
+        res.status(404).json({
+            result: `No user in collection`
+        });
+
+    } catch (err) {
+        res.status(500).json({
+            error: err.message
+        })
+    }
+});
 
 module.exports = router;
