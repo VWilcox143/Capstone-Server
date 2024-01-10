@@ -15,7 +15,7 @@ app.use(express.json());
 
 //!Controllers
 app.use('/user', userController);
-app.use('./task', taskController);
+app.use('/task', taskController);
 
 
 
