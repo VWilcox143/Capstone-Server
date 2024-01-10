@@ -13,3 +13,18 @@ const validateSession = require('../middleware/validateSession');
 //! Update by ID
 
 //! Delete by ID
+router.delete('/id', validateSession, async (req, res) => {
+    try {
+        const { id } = req.params;
+
+        const deleteExpense = await Expense.deleteOne({_id: id, owner_id: req.user._id});
+
+        deleteExpense/deletedCount ?
+            successHandling(res, "Expense Deleted") :
+            incompleteHandling(res) 
+        } catch (err) {
+            errorHandling(res, err);
+        }
+});
+
+module.exports = router;
