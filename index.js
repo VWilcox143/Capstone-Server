@@ -5,7 +5,7 @@ const PORT = process.env.PORT;
 
 //!Imports
 const { dbConnect } = require('./dbConnect');
-const { userController, taskController } = require('./controllers');
+const { userController, taskController, receiptController } = require('./controllers');
 
 
 //!Middleware
@@ -15,7 +15,8 @@ app.use(express.json());
 
 //!Controllers
 app.use('/user', userController);
-app.use('/task', taskController);
+app.use('/tasks', taskController);
+app.use('/receipt', receiptController);
 
 
 
