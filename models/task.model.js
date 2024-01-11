@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const expenseSchema = new mongoose.Schema({
-    Date: new Date,
+    date: Date,
     Job: {
         type: String,
         required: true,
