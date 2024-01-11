@@ -1,17 +1,17 @@
 const router = require('express').Router();
-const  Expense  = require('../models/task.model');
+const Expense  = require('../models/');
 const { errorHandling, successHandling, incompleteHandling } = require('../helpers');
 const validateSession = require('../middleware/validateSession');
 
 
 //! Create
-router.post('/:user', validateSession, async (req, res) => {
+router.post('/task', validateSession, async (req, res) => {
     try {
         
         const {Job, hoursWorked, randomExpenses, mileage} = req.body
 
         const task = new Expense({
-            Date: req.date.date,
+            Date: new Date,
             Job,
             hoursWorked,
             randomExpenses, 
@@ -60,7 +60,7 @@ router.patch('/:id', async (req, res) => {
        
         const info = req.body;
         const returnOption = {new: true}; 
-        const updated = await Expense.findOneAndUpdate(filter, info, returnOption);
+        const updated = await Expense.findOneAndUpdate(filter, info, returnOption); 
         res.status(200).json({
             result: updated
         });
@@ -71,7 +71,7 @@ router.patch('/:id', async (req, res) => {
 });
 
 //! Delete by ID
-router.delete('/id', validateSession, async (req, res) => {
+router.delete('/:id', validateSession, async (req, res) => {
     try {
         const { id } = req.params;
 

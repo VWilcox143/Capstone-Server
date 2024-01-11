@@ -1,12 +1,12 @@
 const mongoose = require('mongoose');
 
-const receipt = new mongoose.Schema({
+const Receipt = new mongoose.Schema({
     type: String,
     date: Date,
     amount: Number,
     job_id: {
         type: mongoose.Types.ObjectId,
-        ref: "expenseSchema"
+        ref: "Expense"
     }
 });
 
