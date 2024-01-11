@@ -1,5 +1,7 @@
 const router = require('express').Router();
+
 const Expense  = require('../models/task.model');
+
 const { errorHandling, successHandling, incompleteHandling } = require('../helpers');
 const validateSession = require('../middleware/validateSession');
 
@@ -74,7 +76,7 @@ router.patch('/:id', validateSession, async (req, res) => {
     
         const info = req.body;
         const returnOption = {new: true}; 
-        const updated = await Expense.findOneAndUpdate(filter, info, returnOption);
+        const updated = await Expense.findOneAndUpdate(filter, info, returnOption); 
         res.status(200).json({
             result: updated
         });
