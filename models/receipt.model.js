@@ -4,7 +4,7 @@ const Receipt = new mongoose.Schema({
     type: String,
     date: Date,
     amount: Number,
-    job_id: {
+    task_id: {
         type: mongoose.Types.ObjectId,
         ref: "Expense"
     }
