@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const expenseSchema = new mongoose.Schema({
-    Date: new Date,
+    date: Date,
     Job: {
         type: String,
         required: true,
@@ -11,14 +11,11 @@ const expenseSchema = new mongoose.Schema({
         type: Number,
         required: true
     },
-    randomExpenses: {
-        type: Number,
-        required: true
-    },
     mileage: {
         type: Number,
         required: true
-    }
+    },
+    receipts: [Object]
 
 
 });
