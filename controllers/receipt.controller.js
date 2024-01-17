@@ -87,7 +87,42 @@ router.get('/date', validateSession, async (req, res) => {
     }
 })
 
-//! Get all by type
+//! Get all by type 
+
+router.get('/type/:type', async (req, res) => {
+    try {
+
+        const { type } = req.params;
+        let buildWord;
+
+        if(type) {
+         
+            for(let i = 0; i < type.length; i++) {
+
+                if(i === 0) {
+                    buildWord = type[i].toUpperCase();
+                } else if(type[i-1] === "-" || type[i -1] === " ") {
+                    buildWord += type[i].toUpperCase();
+                } else {
+                    buildWord += type[i].toLowerCase();
+                }
+            }
+        }
+
+        const getType = await Receipt.find({type: buildWord});
+
+        getType.length > 0 ?
+            res.status(200).json({
+                result: getType
+            }) :
+            res.status(404).json({
+                result: 'Try another type'
+            })
+
+    } catch (err) {
+        errorHandling(res, err)
+    }
+});
 
 //! Update One
 
