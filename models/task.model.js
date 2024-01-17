@@ -15,7 +15,7 @@ const expenseSchema = new mongoose.Schema({
         type: Number,
         required: true
     },
-    receipts: [Object]
+    
 
 
 });
