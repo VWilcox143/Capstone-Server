@@ -23,17 +23,6 @@ router.post('/:task', validateSession, async (req, res) => {
 
         const newReceipt = await receipt.save();
 
-        const forTask = {
-            id: newReceipt._id,
-            type: newReceipt.type,
-            date: newReceipt.date,
-            amount: newReceipt.amount
-        }
-
-        await Task.findOneAndUpdate(
-            {_id: task},
-            {$push: {receipts: forTask}}
-        )
         newReceipt ? 
         successHandling(res, `Receipt Created: ${newReceipt}`) :
         incompleteHandling(res);
