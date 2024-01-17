@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 const Receipt = new mongoose.Schema({
     type: String,
-    date: Date,
+    date: String,
     amount: Number,
     task_id: {
         type: mongoose.Types.ObjectId,
