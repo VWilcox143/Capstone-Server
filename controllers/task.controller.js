@@ -10,11 +10,13 @@ const validateSession = require('../middleware/validateSession');
 router.post('/task', validateSession, async (req, res) => {
     try {
         
-        const {Job, hoursWorked, randomExpenses, mileage} = req.body
+        const {Job, contact, contactEmail, hoursWorked, randomExpenses, mileage} = req.body
 
         const task = new Expense({
-            Date: new Date(),
+            Date: new Date().toLocaleDateString(),
             Job,
+            contact,
+            contactEmail,
             hoursWorked,
             randomExpenses, 
             mileage

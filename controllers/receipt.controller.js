@@ -1,6 +1,6 @@
 const router = require('express').Router();
 const {Receipt, Task} = require('../models');
-const { errorHandling, successHandling, incompleteHandling} = require('../helpers');
+const { errorHandling, successHandling, incompleteHandling } = require('../helpers');
 const validateSession = require('../middleware/validateSession');
 
 //!Create
@@ -85,7 +85,7 @@ router.get('/type/:type', async (req, res) => {
         let buildWord;
 
         if(type) {
-         
+        
             for(let i = 0; i < type.length; i++) {
 
                 if(i === 0) {
@@ -115,6 +115,6 @@ router.get('/type/:type', async (req, res) => {
 
 //! Update One
 
-//!Delete one
+//! Delete one
 
 module.exports = router;
