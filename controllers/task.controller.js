@@ -1,7 +1,5 @@
 const router = require('express').Router();
-
 const Expense  = require('../models/task.model');
-
 const { errorHandling, successHandling, incompleteHandling } = require('../helpers');
 const validateSession = require('../middleware/validateSession');
 
@@ -10,10 +8,10 @@ const validateSession = require('../middleware/validateSession');
 router.post('/task', validateSession, async (req, res) => {
     try {
         
-        const {Job, contact, contactEmail, hoursWorked, randomExpenses, mileage} = req.body
+        const {date, Job, contact, contactEmail, hoursWorked, randomExpenses, mileage} = req.body
 
         const task = new Expense({
-            Date: new Date().toLocaleDateString(),
+            date,
             Job,
             contact,
             contactEmail,
