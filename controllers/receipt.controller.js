@@ -85,7 +85,7 @@ router.get('/type/:type', async (req, res) => {
         let buildWord;
 
         if(type) {
-         
+        
             for(let i = 0; i < type.length; i++) {
 
                 if(i === 0) {
