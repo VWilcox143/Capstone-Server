@@ -2,6 +2,8 @@ require('dotenv').config();
 const express = require('express');
 const app = express();
 const PORT = process.env.PORT;
+const cors = require('cors'); //! <--necessary for frontend
+
 
 //!Imports
 const { dbConnect } = require('./dbConnect');
@@ -10,6 +12,7 @@ const { userController, taskController, receiptController } = require('./control
 
 //!Middleware
 app.use(express.json());
+app.use(cors()); //! <---necessary for front end
 
 
 
@@ -17,6 +20,7 @@ app.use(express.json());
 app.use('/user', userController);
 app.use('/tasks', taskController);
 app.use('/receipt', receiptController);
+
 
 
 
