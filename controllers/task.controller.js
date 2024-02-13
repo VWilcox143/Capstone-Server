@@ -93,7 +93,7 @@ router.delete('/:id', validateSession, async (req, res) => {
         const { id } = req.params;
 
         const deleteExpense = await Expense.findOneAndDelete({_id: id, owner_id: req.user._id});
-console.log(deleteExpense)
+
         deleteExpense._id ?
             successHandling(res, "Expense Deleted") :
             incompleteHandling(res) 
