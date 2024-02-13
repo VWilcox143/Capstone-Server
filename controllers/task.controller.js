@@ -5,7 +5,7 @@ const validateSession = require('../middleware/validateSession');
 
 
 //! Create
-router.post('/task', validateSession, async (req, res) => {
+router.post('/tasks', validateSession, async (req, res) => {
     try {
         
         const {date, Job, contact, contactEmail, hoursWorked, randomExpenses, mileage} = req.body

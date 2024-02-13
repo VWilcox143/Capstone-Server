@@ -5,7 +5,6 @@ const expenseSchema = new mongoose.Schema({
     Job: {
         type: String,
         required: true,
-        unique: true
     },
     hoursWorked: {
         type: Number,
@@ -23,7 +22,6 @@ const expenseSchema = new mongoose.Schema({
     contactEmail: {
         type: String,
         required: true,
-        unique: true
     }
     
 
