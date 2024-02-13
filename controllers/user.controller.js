@@ -26,7 +26,7 @@ router.post('/signup', async(req, res) => {
 
         const results = {
             user: newUser,
-            message: `${newUser.firstName} ${newUser.lastName} has been registered.`,
+            message: `User has been registered.`,
             token
         }
 

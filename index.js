@@ -4,7 +4,6 @@ const app = express();
 const PORT = process.env.PORT;
 const cors = require('cors'); //! <--necessary for frontend
 
-
 //!Imports
 const { dbConnect } = require('./dbConnect');
 const { userController, taskController, receiptController } = require('./controllers');
