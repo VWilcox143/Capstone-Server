@@ -5,9 +5,9 @@ const validateSession = require('../middleware/validateSession');
 
 
 //! Create
-router.post('/task', validateSession, async (req, res) => {
+router.post('/tasks', validateSession, async (req, res) => {
     try {
-        
+        console.log(req.user)
         const {date, Job, contact, contactEmail, hoursWorked, randomExpenses, mileage} = req.body
 
         const task = new Expense({
@@ -17,7 +17,8 @@ router.post('/task', validateSession, async (req, res) => {
             contactEmail,
             hoursWorked,
             randomExpenses, 
-            mileage
+            mileage,
+            owner_id: req.user._id
         })
 
         const newTask = await task.save();
@@ -93,7 +94,7 @@ router.delete('/:id', validateSession, async (req, res) => {
 
         const deleteExpense = await Expense.findOneAndDelete({_id: id, owner_id: req.user._id});
 
-        deleteExpense.deletedCount ?
+        deleteExpense._id ?
             successHandling(res, "Expense Deleted") :
             incompleteHandling(res) 
         } catch (err) {
