@@ -4,7 +4,7 @@ const { errorHandling, successHandling, incompleteHandling } = require('../helpe
 const validateSession = require('../middleware/validateSession');
 
 //!Create
-router.post('/:task', validateSession, async (req, res) => {
+router.post('/:task', validateSession, async (req, res) => { 
     try{
         const {type, date, amount} = req.body;
 
