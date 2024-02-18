@@ -82,14 +82,14 @@ router.get('/:taskId', validateSession, async (req, res) => {
         
         const { taskId } = req.params
 
-        const getDate = await Receipt.find({task_id: taskId})
-        console.log(getDate)
+        const getReceipts = await Receipt.find({task_id: taskId})
+        console.log(getReceipts)
 
-        if(!getDate) throw new Error ('no receipt found');
+        if(!getReceipts) throw new Error ('no receipt found');
 
-        getDate.length > 0 ?
+        getReceipts.length > 0 ?
         res.status(200).json({
-            result: getDate
+            result: getReceipts
         }) :
         res.status(404).json({
             result: 'Try another date'
