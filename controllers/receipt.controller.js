@@ -24,7 +24,7 @@ router.post('/:task', validateSession, async (req, res) => {
         const newReceipt = await receipt.save();
 
         newReceipt ? 
-        successHandling(res, `Receipt Created: ${newReceipt}`) :
+        successHandling(res, `Receipt Created:`) :
         incompleteHandling(res);
     } catch (err) {
         errorHandling(res, err)
@@ -59,6 +59,30 @@ router.get('/date', validateSession, async (req, res) => {
         // let formattedDate = new Date(date)
         // console.log(formattedDate.toISOString())
         const getDate = await Receipt.find({date: date})
+        console.log(getDate)
+
+        if(!getDate) throw new Error ('no receipt found');
+
+        getDate.length > 0 ?
+        res.status(200).json({
+            result: getDate
+        }) :
+        res.status(404).json({
+            result: 'Try another date'
+        })
+
+    } catch (err) {
+        errorHandling(res, err)
+    }
+})
+
+//! Get by task
+router.get('/:taskId', validateSession, async (req, res) => {
+    try {
+        
+        const { taskId } = req.params
+
+        const getDate = await Receipt.find({task_id: taskId})
         console.log(getDate)
 
         if(!getDate) throw new Error ('no receipt found');
@@ -116,5 +140,17 @@ router.get('/type/:type', async (req, res) => {
 //! Update One
 
 //! Delete one
+router.delete('/:id', validateSession, async (req, res) => {
+    try {
+        const { id } = req.params;
 
+        const deleteReceipt = await Receipt.findOneAndDelete({_id: id, owner_id: req.user._id});
+console.log(deleteReceipt)
+        deleteReceipt._id ?
+            successHandling(res, "Receipt Deleted") :
+            incompleteHandling(res) 
+        } catch (err) {
+            errorHandling(res, err);
+        }
+});
 module.exports = router;
