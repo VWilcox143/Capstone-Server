@@ -53,7 +53,7 @@ router.get ('/find-one/:id', validateSession, async(req,res) =>{
 router.get('/', validateSession, async (req, res) => {
     try {
 
-        const allExpenses = await Expense.find({owner_id: req.user._id});
+        const allExpenses = await Expense.find({ owner_id: req.user._id });
 
         allExpenses.length > 0 ? 
             res.status(200).json({
