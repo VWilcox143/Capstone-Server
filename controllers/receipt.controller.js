@@ -138,6 +138,28 @@ router.get('/type/:type', async (req, res) => {
 });
 
 //! Update One
+router.patch('/:id', validateSession, async(req, res) => {
+    try {
+        
+        const filter = {
+            _id: req.params.id,
+            owner_id: req.user._id
+        }
+
+        const info = req.body;
+
+        const returnOption = {new: true};
+
+        const updated = await Receipt.findOneAndUpdate(filter, info, returnOption);
+
+        res.status(200).json({
+            result: updated
+        })
+
+    } catch (err) {
+        errorHandling(res, err)
+    }
+})
 
 //! Delete one
 router.delete('/:id', validateSession, async (req, res) => {
