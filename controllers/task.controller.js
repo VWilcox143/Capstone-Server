@@ -47,6 +47,7 @@ router.get ('/find-one/:id', validateSession, async(req,res) =>{
         errorHandling(res,err);
     }
 })
+
 //! Get all
 
 router.get('/', validateSession, async (req, res) => {
