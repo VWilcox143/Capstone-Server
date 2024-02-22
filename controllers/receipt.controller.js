@@ -76,6 +76,24 @@ router.get('/date', validateSession, async (req, res) => {
     }
 })
 
+//! Get One by ID 
+// Added this route because it was being called upon in our ReceiptEdit, but it didn't exist. 
+router.get ('/find-one/:id', validateSession, async(req,res) =>{
+    try {
+
+        const { id } = req.params;
+
+        const task = await Receipt.findOne({_id: id});
+
+        task ? 
+        successHandling(res, task) :
+        incompleteHandling(res);
+
+    } catch (err) {
+        errorHandling(res,err);
+    }
+})
+
 //! Get by task
 router.get('/:taskId', validateSession, async (req, res) => {
     try {
@@ -168,6 +186,7 @@ router.delete('/:id', validateSession, async (req, res) => {
 
         const deleteReceipt = await Receipt.findOneAndDelete({_id: id, owner_id: req.user._id});
 console.log(deleteReceipt)
+
         deleteReceipt._id ?
             successHandling(res, "Receipt Deleted") :
             incompleteHandling(res) 
