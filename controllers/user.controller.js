@@ -54,7 +54,7 @@ router.post('/login', async(req, res) => {
         
         if(!passwordMatch) throw new Error('Email or Password does not match');
         
-        const token = jwt.sign({id: user._id}, SECRET, {expiresIn: 60 * 60 * 24})
+        const token = jwt.sign({id: user._id, name: user.firstName }, SECRET, {expiresIn: 60 * 60 * 24})
         
         const results = {
             message: "Login Successful",
