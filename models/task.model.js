@@ -26,6 +26,14 @@ const expenseSchema = new mongoose.Schema({
         unique: false
 
     },
+
+    payRate: {
+        type: Number
+    },
+
+    taxRate: {
+        type: Number
+    },
     owner_id: mongoose.Types.ObjectId
     
 

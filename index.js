@@ -6,7 +6,7 @@ const cors = require('cors'); //! <--necessary for frontend
 
 //!Imports
 const { dbConnect } = require('./dbConnect');
-const { userController, taskController, receiptController } = require('./controllers');
+const { userController, taskController, receiptController, subTaskController } = require('./controllers');
 
 
 //!Middleware
@@ -19,6 +19,7 @@ app.use(cors()); //! <---necessary for front end
 app.use('/user', userController);
 app.use('/tasks', taskController);
 app.use('/receipt', receiptController);
+app.use('/subTask', subTaskController);
 
 
 
