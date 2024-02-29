@@ -20,6 +20,10 @@ const Receipt = new mongoose.Schema({
     task_id: {
         type: mongoose.Types.ObjectId,
         ref: "Expense"
+    },
+    subTask_id: {
+        type: mongoose.Types.ObjectId,
+        ref: "SubTask"
     }
 });
 

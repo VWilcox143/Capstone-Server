@@ -7,6 +7,12 @@ const SubTask = new mongoose.Schema({
         required: true
 
     },
+
+    date: {
+        type: String,
+        required: true
+    },
+    
     hoursWorked: {
         type: Number,
         required: true
