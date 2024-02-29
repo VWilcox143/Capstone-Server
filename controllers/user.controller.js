@@ -8,7 +8,7 @@ const { errorHandling, successHandling, incompleteHandling } = require('../helpe
 const validateSession = require('../middleware/validateSession');
 
 //! User Signup
-router.post('/signup', async(req, res) => {
+router.post('/signup', async(req, res) => { 
     try {
         const user = new User({
             firstName: req.body.first, //Too the ternarys out of here
@@ -26,7 +26,7 @@ router.post('/signup', async(req, res) => {
 
         const results = {
             user: newUser,
-            message: `${newUser.firstName} ${newUser.lastName} has been registered.`,
+            message: `User has been registered.`,
             token
         }
 
@@ -54,7 +54,7 @@ router.post('/login', async(req, res) => {
         
         if(!passwordMatch) throw new Error('Email or Password does not match');
         
-        const token = jwt.sign({id: user._id}, SECRET, {expiresIn: 60 * 60 * 24})
+        const token = jwt.sign({id: user._id, name: user.firstName }, SECRET, {expiresIn: 60 * 60 * 24})
         
         const results = {
             message: "Login Successful",
@@ -81,7 +81,7 @@ router.patch('/:id', validateSession, async (req, res) => {
     const filteredInfo = {};
         for (const key in req.body) {
             if (allowedProperties.includes(key)) {
-            filteredInfo[key] = req.body[key];                //This filters our user model by the 'allowedProperties' array in order to only allow changes to the things in the array. In other words, 'password' can no longer be changed via patch.
+            filteredInfo[key] = req.body[key];                //This filters out user model by the 'allowedProperties' array in order to only allow changes to the things in the array. In other words, 'password' can no longer be changed via patch.
             } else{
             throw new Error(`That change is not authorized.`)
         }
@@ -99,7 +99,7 @@ router.patch('/:id', validateSession, async (req, res) => {
 });
 
 
-//! Get All 
+//! Get All Aaron did this 
 
 router.get('/', async (req, res) =>{
     try {
@@ -144,5 +144,27 @@ router.get('/find-one/:id', async (req, res) => {
     }
 });
 
+//! Delete One
+router.delete('/:id', async (req,res) => {
+    try {
+        
+        const { id } = req.params;
+
+        const deleteUser = await User.deleteOne({_id: id,});
+        
+        deleteUser.deletedCount ?
+        res.status(200).json({
+            result: `User Removed`
+        }) : 
+        res.status(404).json({
+            result: `No user in collection`
+        });
+
+    } catch (err) {
+        res.status(500).json({
+            error: err.message
+        })
+    }
+});
 
 module.exports = router;
