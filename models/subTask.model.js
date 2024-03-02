@@ -1,10 +1,11 @@
 const mongoose = require('mongoose');
 
-const Receipt = new mongoose.Schema({
-
-    type:{
+const SubTask = new mongoose.Schema({
+    
+    Job: {
         type: String,
         required: true
+
     },
 
     date: {
@@ -12,19 +13,21 @@ const Receipt = new mongoose.Schema({
         required: true
     },
     
-    amount: {
+    hoursWorked: {
         type: Number,
         required: true
     },
-    
+    mileage: {
+        type: Number,
+        required: true
+    },
     task_id: {
         type: mongoose.Types.ObjectId,
         ref: "Expense"
-    },
-    subTask_id: {
-        type: mongoose.Types.ObjectId,
-        ref: "SubTask"
     }
+    
+
+
 });
 
-module.exports = mongoose.model('Receipt', Receipt);
+module.exports = mongoose.model('SubTask', SubTask);
