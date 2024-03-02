@@ -118,6 +118,30 @@ router.get('/:taskId', validateSession, async (req, res) => {
     }
 })
 
+//! Get by subtask
+router.get('/:subTaskId', validateSession, async (req, res) => {
+    try {
+        
+        const { subTaskId } = req.params
+
+        const getSubReceipts = await Receipt.find({subTask_id: subTaskId})
+        console.log(getSubReceipts)
+
+        if(!getSubReceipts) throw new Error ('no receipt found');
+
+        getSubReceipts.length > 0 ?
+        res.status(200).json({
+            result: getSubReceipts
+        }) :
+        res.status(404).json({
+            result: 'Try another date'
+        })
+
+    } catch (err) {
+        errorHandling(res, err)
+    }
+})
+
 //! Get all by type 
 
 router.get('/type/:type', async (req, res) => {

@@ -8,7 +8,7 @@ const validateSession = require('../middleware/validateSession');
 router.post('/tasks', validateSession, async (req, res) => {
     try {
         console.log(req.user)
-        const {date, Job, contact, contactEmail, hoursWorked, randomExpenses, mileage} = req.body
+        const {date, Job, contact, contactEmail, hoursWorked, randomExpenses, mileage, payRate, taxRate} = req.body
 
         const task = new Expense({
             date,
@@ -18,6 +18,8 @@ router.post('/tasks', validateSession, async (req, res) => {
             hoursWorked,
             randomExpenses, 
             mileage,
+            payRate,
+            taxRate,
             owner_id: req.user._id
         })
 
