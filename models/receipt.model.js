@@ -16,14 +16,14 @@ const Receipt = new mongoose.Schema({
         type: Number,
         required: true
     },
+    subTask_id: {
+        type: mongoose.Types.ObjectId,
+        ref: "SubTask"
+    },
     
     task_id: {
         type: mongoose.Types.ObjectId,
         ref: "Expense"
-    },
-    subTask_id: {
-        type: mongoose.Types.ObjectId,
-        ref: "SubTask"
     }
 });
 
