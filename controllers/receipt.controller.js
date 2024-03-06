@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const {Receipt, Task} = require('../models');
+const {Receipt, Task, SubTask} = require('../models');
 const { errorHandling, successHandling, incompleteHandling } = require('../helpers');
 const validateSession = require('../middleware/validateSession');
 
@@ -9,7 +9,7 @@ router.post('/:task', validateSession, async (req, res) => {
         const {type, date, amount} = req.body;
 
         const {task} = req.params;
-
+        
         const taskCheck = await Task.find({_id: task})
 
         if(!taskCheck) throw new Error('Task not available');
@@ -18,6 +18,37 @@ router.post('/:task', validateSession, async (req, res) => {
             type,
             date,
             amount,
+            task_id: task,
+
+        })
+
+        const newReceipt = await receipt.save();
+
+        newReceipt ? 
+        successHandling(res, `Receipt Created:`) :
+        incompleteHandling(res);
+    } catch (err) {
+        errorHandling(res, err)
+    }
+})
+
+
+//!Create by SubTask
+router.post('/:task/findsub/:subTask', validateSession, async (req, res) => { 
+    try{
+        const {type, date, amount} = req.body;
+
+        const {subTask, task} = req.params;
+
+        const subTaskCheck = await SubTask.find({_id: subTask})
+
+        if(!subTaskCheck) throw new Error('Task not available');
+
+        const receipt = new Receipt({
+            type,
+            date,
+            amount,
+            subTask_id: subTask,
             task_id: task
         })
 
@@ -30,6 +61,9 @@ router.post('/:task', validateSession, async (req, res) => {
         errorHandling(res, err)
     }
 })
+
+
+
 //! Get all 
 router.get('/', validateSession, async (req, res) => {
     try {
@@ -119,11 +153,12 @@ router.get('/:taskId', validateSession, async (req, res) => {
 })
 
 //! Get by subtask
-router.get('/:subTaskId', validateSession, async (req, res) => {
+router.get('/findsub/:subTaskId', validateSession, async (req, res) => {
+
     try {
         
         const { subTaskId } = req.params
-
+console.log(subTaskId)
         const getSubReceipts = await Receipt.find({subTask_id: subTaskId})
         console.log(getSubReceipts)
 
